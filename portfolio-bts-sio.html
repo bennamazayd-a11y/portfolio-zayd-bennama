@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zayd Bennama  – Portfolio BTS SIO</title>
+<!-- ============================================================
+  MODE D'EMPLOI
+  1. Cherche les textes entre crochets [ ] : ce sont les endroits à remplacer.
+  2. Option SISR ou SLAM : change-la dans le hero et dans le tableau de synthèse.
+  3. Pour ajouter une réalisation : copie un bloc <article class="projet"> entier.
+     Le attribut data-tags (reseau, systeme, dev, cyber) sert au filtre.
+  4. Photo : remplace le bloc .photo par <img src="photo.jpg" alt="Ta photo">.
+  5. CV : mets ton fichier PDF dans le même dossier et garde le nom cv.pdf.
+============================================================= -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f6f8; --surface:#ffffff; --ink:#101828; --muted:#546074; --line:#d9dee6;
+  --accent:#2f4bff; --accent-ink:#ffffff; --soft:#e8ecff; --warn:#f2a900;
+  --display:"Bricolage Grotesque","Segoe UI",Arial,sans-serif;
+  --body:"Source Sans 3","Segoe UI",Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#0e1420; --surface:#161e2e; --ink:#eef1f7; --muted:#9aa6bb; --line:#27324a; --accent:#7f93ff; --accent-ink:#0e1420; --soft:#1d2848}
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 var(--body)}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1100px;margin:0 auto;padding:0 24px}
+h1,h2,h3{font-family:var(--display);line-height:1.1;margin:0}
+h2{font-size:clamp(1.8rem,3.5vw,2.4rem);font-weight:800;margin-bottom:8px}
+h3{font-size:1.2rem;font-weight:700}
+section{padding:72px 0;border-top:1px solid var(--line)}
+.lead{color:var(--muted);max-width:60ch;margin:0 0 36px}
+
+/* Navigation */
+header{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line)}
+nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font:800 1.15rem var(--display);color:var(--ink);text-decoration:none}
+nav ul{display:flex;gap:22px;list-style:none;margin:0;padding:0}
+nav ul a{color:var(--ink);text-decoration:none;font-size:.95rem;font-weight:600}
+nav ul a:hover{color:var(--accent)}
+
+/* Hero */
+.hero{padding:80px 0 72px;border:0}
+.hero .wrap{display:grid;grid-template-columns:1.5fr 1fr;gap:56px;align-items:center}
+.hero h1{font-size:clamp(2.6rem,7vw,4.6rem);font-weight:800;letter-spacing:-.02em}
+.hero .role{font:700 1.25rem var(--display);margin:18px 0 14px}
+.hero p{color:var(--muted);max-width:52ch;margin:0 0 28px}
+.btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-block;padding:12px 22px;border-radius:8px;font-weight:600;text-decoration:none;border:2px solid var(--accent)}
+.btn.primary{background:var(--accent);color:var(--accent-ink)}
+.btn.ghost{color:var(--accent)}
+.btn:hover{transform:translateY(-1px)}
+.photo{aspect-ratio:4/5;border-radius:16px;background:var(--soft);border:2px dashed var(--accent);display:grid;place-items:center;text-align:center;color:var(--accent);font-weight:600;padding:20px}
+.photo img{width:100%;height:100%;object-fit:cover;border-radius:14px}
+
+/* Parcours = vraie chronologie */
+.timeline{list-style:none;margin:0;padding:0 0 0 22px;border-left:3px solid var(--accent)}
+.timeline li{position:relative;padding:0 0 28px 20px}
+.timeline li::before{content:"";position:absolute;left:-31px;top:7px;width:13px;height:13px;border-radius:50%;background:var(--bg);border:3px solid var(--accent)}
+.timeline .date{font-weight:600;color:var(--accent)}
+.timeline p{margin:4px 0 0;color:var(--muted)}
+
+/* Compétences */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px}
+.box h3{margin-bottom:12px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0}
+.chips li{background:var(--soft);color:var(--ink);padding:4px 12px;border-radius:999px;font-size:.92rem;font-weight:600}
+
+/* Réalisations */
+.filtres{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+.filtres button{font:600 .95rem var(--body);padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.filtres button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.projet{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:26px;margin-bottom:20px;display:grid;grid-template-columns:1fr 2fr;gap:28px}
+.projet[hidden]{display:none}
+.projet .meta{color:var(--muted);font-size:.95rem}
+.projet .meta strong{display:block;color:var(--ink);font:700 1.2rem var(--display);margin-bottom:8px}
+.projet h4{margin:14px 0 4px;font-size:.95rem}
+.projet h4:first-child{margin-top:0}
+.projet p,.projet ul{margin:0;color:var(--muted)}
+.projet ul{padding-left:20px}
+.projet .chips{margin-top:14px}
+.preuve{display:inline-block;margin-top:14px;font-weight:600}
+
+/* Tableau de synthèse */
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:720px;font-size:.95rem}
+th,td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--line)}
+th{background:var(--soft);font-weight:600}
+td.ok{color:var(--accent);font-weight:700;text-align:center}
+th.c{text-align:center}
+tr:last-child td{border-bottom:0}
+
+/* Veille */
+.veille{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.veille ul{margin:8px 0 0;padding-left:20px;color:var(--muted)}
+
+/* Contact */
+.contact{display:flex;gap:14px;flex-wrap:wrap}
+footer{padding:32px 0;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
+
+@media (max-width:800px){
+  nav ul{display:none}
+  .hero .wrap,.projet,.veille{grid-template-columns:1fr}
+  .photo{max-width:280px}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn:hover{transform:none}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <nav aria-label="Navigation principale">
+      <a class="logo" href="#accueil"> Profil </a>
+      <ul>
+        <li><a href="#parcours">Parcours</a></li>
+        <li><a href="#competences">Compétences</a></li>
+        <li><a href="#realisations">Réalisations</a></li>
+        <li><a href="#synthese">Tableau de synthèse</a></li>
+        <li><a href="#veille">Veille</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- ACCUEIL -->
+<section class="hero" id="accueil">
+  <div class="wrap">
+    <div>
+      <h1>Zayd Bennama</h1>
+      <p class="role">Étudiant en BTS SIO, option SISR</p>
+      <p>[Présente-toi en deux phrases : ce qui te plaît en informatique, ce que tu cherches (alternance, poursuite d'études en bachelor ou licence pro) et ta ville.]</p>
+      <div class="btns">
+        <a class="btn primary" href="cv.pdf" download>Télécharger mon CV</a>
+        <a class="btn ghost" href="#realisations">Voir mes réalisations</a>
+      </div>
+    </div>
+  
+  </div>
+</section>
+
+<!-- PARCOURS -->
+<section id="parcours">
+  <div class="wrap">
+    <h2>Parcours</h2>
+    <p class="lead">Ma formation et mes expériences, de la plus récente à la plus ancienne.</p>
+    <ol class="timeline">
+      <li><span class="date">[2025 – 2027]</span><h3>BTS SIO, option SISR</h3><p>[Nom du lycée ou de l'école, ville]. Services informatiques aux organisations, solutions d'infrastructure, systèmes et réseaux.</p></li>
+      <li><span class="date">[Mai – Juin 2026]</span><h3>Stage de [X] semaines : technicien informatique</h3><p>[Nom de l'entreprise, ville]. [Une phrase sur tes missions principales.]</p></li>
+      <li><span class="date">[2022 – 2025]</span><h3>Baccalauréat [général / STI2D / pro SN]</h3><p>[Spécialités, mention, projet marquant.]</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- COMPÉTENCES -->
+<section id="competences">
+  <div class="wrap">
+    <h2>Compétences</h2>
+    <p class="lead">Ce que je sais faire aujourd'hui, avec les outils que j'ai réellement utilisés.</p>
+    <div class="grid">
+      <div class="box"><h3>Réseaux</h3><ul class="chips"><li>Cisco Packet Tracer</li><li>VLAN</li><li>Routage OSPF</li><li>NAT / DHCP / DNS</li><li>pfSense</li></ul></div>
+      <div class="box"><h3>Systèmes</h3><ul class="chips"><li>Windows Server</li><li>Active Directory</li><li>GPO</li><li>Debian / Ubuntu</li><li>Proxmox / VMware</li></ul></div>
+      <div class="box"><h3>Services</h3><ul class="chips"><li>GLPI</li><li>Zabbix</li><li>Apache / Nginx</li><li>Samba</li><li>OCS Inventory</li></ul></div>
+      <div class="box"><h3>Cybersécurité</h3><ul class="chips"><li>Pare-feu</li><li>VPN (OpenVPN / WireGuard)</li><li>Sauvegardes</li><li>RGPD</li></ul></div>
+      <div class="box"><h3>Développement</h3><ul class="chips"><li>Bash</li><li>PowerShell</li><li>Python</li><li>SQL</li><li>HTML / CSS</li></ul></div>
+      <div class="box"><h3>Savoir-être</h3><ul class="chips"><li>Travail en équipe</li><li>Rédaction de documentation</li><li>Autonomie</li><li>Relation utilisateur</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- RÉALISATIONS -->
+<section id="realisations">
+  <div class="wrap">
+    <h2>Réalisations professionnelles</h2>
+    <p class="lead">Projets réalisés en cours et en stage. Chaque fiche indique le contexte, mes missions, les outils et les compétences du référentiel travaillées.</p>
+
+    <div class="filtres" role="group" aria-label="Filtrer les réalisations">
+      <button type="button" data-filtre="tous" aria-pressed="true">Toutes</button>
+      <button type="button" data-filtre="reseau" aria-pressed="false">Réseau</button>
+      <button type="button" data-filtre="systeme" aria-pressed="false">Système</button>
+      <button type="button" data-filtre="cyber" aria-pressed="false">Cybersécurité</button>
+      <button type="button" data-filtre="dev" aria-pressed="false">Développement</button>
+    </div>
+
+    <article class="projet" data-tags="systeme">
+      <div class="meta"><strong>Déploiement d'un domaine Active Directory</strong>[Cours / Stage] · [Mois Année] · [Individuel / Groupe de X]</div>
+      <div>
+        <h4>Contexte</h4><p>[Une PME de 30 postes veut centraliser ses comptes utilisateurs et ses droits d'accès.]</p>
+        <h4>Mes missions</h4>
+        <ul><li>Installer et configurer Windows Server 2022 (AD DS, DNS, DHCP)</li><li>Créer les unités d'organisation, groupes et GPO</li><li>Rédiger la procédure d'intégration d'un poste</li></ul>
+        <ul class="chips"><li>Windows Server</li><li>Active Directory</li><li>GPO</li></ul>
+        <a class="preuve" href="#">Voir la documentation (PDF)</a>
+      </div>
+    </article>
+
+    <article class="projet" data-tags="reseau cyber">
+      <div class="meta"><strong>Segmentation du réseau et pare-feu pfSense</strong>[Cours / Stage] · [Mois Année] · [Individuel / Groupe de X]</div>
+      <div>
+        <h4>Contexte</h4><p>[Séparer le réseau des employés, des invités et des serveurs pour limiter les risques.]</p>
+        <h4>Mes missions</h4>
+        <ul><li>Créer trois VLAN et configurer le routage inter-VLAN</li><li>Écrire les règles de filtrage sur pfSense</li><li>Tester les accès et documenter le plan d'adressage</li></ul>
+        <ul class="chips"><li>pfSense</li><li>VLAN</li><li>Packet Tracer</li></ul>
+        <a class="preuve" href="#">Voir la documentation (PDF)</a>
+      </div>
+    </article>
+
+    <article class="projet" data-tags="systeme">
+      <div class="meta"><strong>Parc informatique et helpdesk avec GLPI</strong>[Stage] · [Mois Année] · [Nom de l'entreprise]</div>
+      <div>
+        <h4>Contexte</h4><p>[L'entreprise gérait ses demandes d'assistance par mail, sans suivi.]</p>
+        <h4>Mes missions</h4>
+        <ul><li>Installer GLPI sur un serveur Debian</li><li>Inventorier les postes avec l'agent GLPI</li><li>Former deux collègues au suivi des tickets</li></ul>
+        <ul class="chips"><li>GLPI</li><li>Debian</li><li>MariaDB</li></ul>
+        <a class="preuve" href="#">Voir la documentation (PDF)</a>
+      </div>
+    </article>
+
+    <article class="projet" data-tags="dev">
+      <div class="meta"><strong>Script de création automatique de comptes</strong>[Cours] · [Mois Année] · [Individuel]</div>
+      <div>
+        <h4>Contexte</h4><p>[Créer 50 comptes utilisateurs à la main prenait trop de temps.]</p>
+        <h4>Mes missions</h4>
+        <ul><li>Écrire un script PowerShell qui lit un fichier CSV</li><li>Créer les comptes, les groupes et les dossiers personnels</li><li>Gérer les erreurs et produire un journal</li></ul>
+        <ul class="chips"><li>PowerShell</li><li>CSV</li><li>Active Directory</li></ul>
+        <a class="preuve" href="#">Voir le code (GitHub)</a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- TABLEAU DE SYNTHÈSE -->
+<section id="synthese">
+  <div class="wrap">
+    <h2>Tableau de synthèse</h2>
+    
+</section>
+
+<!-- VEILLE -->
+<section id="veille">
+  <div class="wrap">
+    <h2>Veille technologique</h2>
+    <p class="lead">[Sujet de ta veille, par exemple : « Les ransomwares ciblant les PME » ou « L'évolution de Windows Server et de l'hybridation cloud ».]</p>
+    <div class="veille">
+      <div class="box">
+        <h3>Mes sources</h3>
+        <ul><li>[ANSSI / cert.ssi.gouv.fr]</li><li>[LeMagIT]</li><li>[Zataz]</li><li>[Flux RSS ou alertes Google à indiquer]</li></ul>
+      </div>
+      <div class="box">
+        <h3>Ma méthode</h3>
+        <ul><li>Outil de collecte : [Feedly / Inoreader]</li><li>Fréquence : [2 fois par semaine]</li><li>Restitution : [fiches de synthèse mensuelles]</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="wrap">
+    <h2>Me contacter</h2>
+    <p class="lead">Je cherche [une alternance / un stage] à partir de [mois année]. Écris-moi, je réponds sous 48 h.</p>
+    <div class="contact">
+      <a class="btn primary" href="mailto:prenom.nom@email.fr">bennamazayd@gmail.com</a>
+      <a class="btn ghost" href="https://www.linkedin.com/in/[ton-profil]">LinkedIn</a>
+      <a class="btn ghost" href="https://github.com/[ton-pseudo]">GitHub</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">© <span id="annee"></span> Zayd Bennama · Portfolio BTS SIO </div>
+</footer>
+
+<script>
+  // Année du pied de page
+  document.getElementById('annee').textContent = new Date().getFullYear();
+
+  // Filtre des réalisations
+  const boutons = document.querySelectorAll('.filtres button');
+  const projets = document.querySelectorAll('.projet');
+  boutons.forEach(b => b.addEventListener('click', () => {
+    boutons.forEach(x => x.setAttribute('aria-pressed', x === b));
+    const f = b.dataset.filtre;
+    projets.forEach(p => { p.hidden = f !== 'tous' && !p.dataset.tags.split(' ').includes(f); });
+  }));
+</script>
+</body>
+</html>
